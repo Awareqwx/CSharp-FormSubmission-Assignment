@@ -1,0 +1,47 @@
+@{
+    ViewData["Title"] = "Register";
+}
+<h3>Enter your information:</h3>
+<form method="post" action="/submit">
+    <label for="firstName">First Name:
+        <input type="text" name="firstName">
+    </label><br/>
+    <label for="lastName">Last Name:
+        <input type="text" name="lastName">
+    </label><br/>
+    <label for="age">Age:
+        <input type="text" name="age">
+    </label><br/>
+    <label for="email">E-Mail:
+        <input type="text" name="email">
+    </label><br/>
+    <label for="password">Password:
+        <input type="password" name="password">
+    </label><br/>
+    <input type="submit">
+</form>
+
+<div id="errors">
+    @{
+        try
+        {
+            Console.WriteLine(ViewBag.errors != null);
+            // Explanaton: Apparently, if the value of ViewBag.errors is null, you have to use
+            // the "==" operator to compare it or it will crash. But if it is NOT null, then you 
+            // have to use .Equals() to compare it, or it will crash. So... Here's my super-hacky
+            // solution to the problem. If it crashes on that line, well, then that means it
+            // isn't null, because if it WAS null, then it wouldn't have crashed.
+        }
+        catch(Exception e)
+        {
+            foreach(var error in ViewBag.errors)
+            {
+                if(error.Errors.Count > 0)
+                {
+                    // We show the first error for that field
+                    <p>@error.Errors[0].ErrorMessage</p>
+                }
+            }
+        } 
+    }
+</div>
